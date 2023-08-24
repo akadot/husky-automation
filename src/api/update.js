@@ -1,4 +1,4 @@
-const files_to_commit = require("../config/to_commit.txt");
+const files_to_commit = require("../config/to_commit.js");
 
 console.log(files_to_commit);
 // if(files_to_commit != "{}"){
