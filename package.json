@@ -8,6 +8,6 @@
   },
   "scripts": {
     "prepare": "husky install",
-    "update": "node ./src/update.js"
+    "update": "node ./src/api/update.js"
   }
 }
