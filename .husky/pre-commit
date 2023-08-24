@@ -9,5 +9,6 @@ do
 done
 
 echo "]" >> ./src/config/to_commit.js
+echo "export default files" >> ./src/config/to_commit.js
 
 npm update

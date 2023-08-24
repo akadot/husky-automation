@@ -1,6 +1,6 @@
-const files_to_commit = require("../config/to_commit.js");
+import files from '../config/to_commit';
 
-console.log(files_to_commit)
+console.log(files_to_commit);
 // if(files_to_commit != "{}"){
 //     const date = new Date();
     

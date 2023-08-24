@@ -1,1 +1,4 @@
-let files = ["aaaa","aaaa",]
+let files = [
+'src/api/update.js',
+'src/test/file.js',
+]
