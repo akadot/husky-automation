@@ -11,5 +11,5 @@ if(JSON.stringify(files_to_commit) != "{}"){
 
     const version_str = `${date.getFullYear()}${monthFormat}${dateFormat}${hourFormat}${minuteFormat}${secondFormat}`;
 
-    console.log(version_str)
+    console.log("VERSION: ", version_str)
 }

@@ -1,15 +1,14 @@
 #!/usr/bin/env sh
 . "$(dirname -- "$0")/_/husky.sh"
 
-json='{'
+echo "{" >> ./src/config/to_commit.json
 
 for file in $(git diff --cached --name-only | grep -E '\.(js|jsx)$')
 do
-  echo "$file"
+  echo $file >> ./src/config/to_commit.json
 done
 
-json+='}'
+echo "}" >> ./src/config/to_commit.json
 
-echo $json > ./src/config/to_commit.json
 
 npm update
