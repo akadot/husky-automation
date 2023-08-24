@@ -5,7 +5,7 @@ echo "let files = [" > ./src/config/to_commit.js
 
 for file in $(git diff --cached --name-only | grep -E '\.(js|jsx)$')
 do
-  echo "$file," >> ./src/config/to_commit.js
+  echo "'$file'," >> ./src/config/to_commit.js
 done
 
 echo "]" >> ./src/config/to_commit.js
