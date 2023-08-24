@@ -3,7 +3,7 @@
 
 for file in $(git diff --cached --name-only | grep -E '\.(js|jsx)$')
 do
-  echo $file > "../src/config/to_commit.json"
+  echo $file > ./src/config/to_commit.json
 done
 
 npm update
