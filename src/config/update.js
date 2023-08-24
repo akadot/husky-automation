@@ -10,7 +10,7 @@ if(files != undefined && files != null && files != "" && files.length && files.l
     let minuteFormat = ("0" + date.getMinutes()).slice(-2);
     let secondFormat = ("0" + date.getSeconds()).slice(-2);
 
-    const version_str = `${date.getFullYear()}${monthFormat}${dateFormat}${hourFormat}${minuteFormat}${secondFormat}`;
+    const version_str = `${date.getFullYear()}-${monthFormat}-${dateFormat}-${hourFormat}-${minuteFormat}-${secondFormat}`;
 
     for(let filename of files){
         if(!filename.includes("api-version.json"))
