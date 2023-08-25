@@ -62,6 +62,7 @@ if(files != undefined && files != null && files != "" && files.length && files.l
     if(updatesFiles.length > 0){
         exec('git diff --name-only', (error, stdout, stderr) => {
             const modifiedFiles = stdout.trim().split(/\r?\n/);
+            console.log(modifiedFiles)
 
             for(let updatedVersions of updatesFiles){
                 if (modifiedFiles.includes(updatedVersions)) {
