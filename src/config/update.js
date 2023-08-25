@@ -1,5 +1,4 @@
 import fs from 'fs';
-import {exec} from 'child_process';
 import files from '../config/to_commit.js';
 
 if(files != undefined && files != null && files != "" && files.length && files.length > 0){
@@ -13,8 +12,6 @@ if(files != undefined && files != null && files != "" && files.length && files.l
 
     const version_str = `${date.getFullYear()}-${monthFormat}-${dateFormat}-${hourFormat}-${minuteFormat}-${secondFormat}`;
 
-    let updatesFiles = [];
-
     for(let filename of files){
         if(!filename.includes("api-version.json"))
         {
@@ -25,7 +22,6 @@ if(files != undefined && files != null && files != "" && files.length && files.l
                     let absolutePath = splitted.slice(0,idx + 1).join("/")
 
                     if(absolutePath.includes("API")){
-                        updatesFiles.push(`${absolutePath}/api-version.json`);
                         fs.readFile(`./${absolutePath}/api-version.json`,'utf8',(err,file) => {
                             if(!err){
                                 let json = JSON.parse(file)
@@ -37,8 +33,6 @@ if(files != undefined && files != null && files != "" && files.length && files.l
                             }
                         })
                     }else if(absolutePath.includes("App") || absolutePath.includes("Conf")){
-                        updatesFiles.push(`${absolutePath}/public/api-version.json`)
-
                         fs.readFile(`./${absolutePath}/public/api-version.json`,'utf8',(err,file) => {
                             if(!err){
                                 let json = JSON.parse(file)
@@ -54,20 +48,4 @@ if(files != undefined && files != null && files != "" && files.length && files.l
             }
         }
     }
-
-    console.log(updatesFiles)
-
-    // if(updatesFiles.length > 0){
-    //     exec('git diff --name-only', (error, stdout, stderr) => {
-    //         const modifiedFiles = stdout.trim().split(/\r?\n/);
-    //         console.log(modifiedFiles)
-
-    //         for(let updatedVersions of updatesFiles){
-    //             if (modifiedFiles.includes(updatedVersions)) {
-    //                 exec(`git commit --amend -C HEAD -n ${updatedVersions}`);
-    //             }
-    //         }
-    //     })
-    // }
-
 }
