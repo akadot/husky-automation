@@ -1,6 +1,8 @@
 #!/usr/bin/env sh
 . "$(dirname -- "$0")/_/husky.sh"
 
+echo "Atualizando versão das APIs alteradas."
+
 echo "let files = [" > ./src/config/to_commit.js
 
 for file in $(git diff --cached --name-only | grep -E '\.(js|jsx)$')
@@ -11,4 +13,4 @@ done
 echo "]" >> ./src/config/to_commit.js
 echo "export default files" >> ./src/config/to_commit.js
 
-npm update
+npm run update
