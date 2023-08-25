@@ -25,31 +25,27 @@ if(files != undefined && files != null && files != "" && files.length && files.l
                     let absolutePath = splitted.slice(0,idx + 1).join("/")
 
                     if(absolutePath.includes("API")){
+                        updatesFiles.push(`${absolutePath}/api-version.json`);
                         fs.readFile(`./${absolutePath}/api-version.json`,'utf8',(err,file) => {
                             if(!err){
                                 let json = JSON.parse(file)
                                 json.version = version_str;
 
                                 fs.writeFile(`./${absolutePath}/api-version.json`, JSON.stringify(json), (err)=>{
-                                    if(!err) {
-                                        updatesFiles.push(`${absolutePath}/api-version.json`);
-                                        console.log(`Versão ${version_str} atualizada em ./${absolutePath}/api-version.json`)
-                                    }
+                                    if(!err) console.log(`Versão ${version_str} atualizada em ./${absolutePath}/api-version.json`)
                                 })
                             }
                         })
                     }else if(absolutePath.includes("App") || absolutePath.includes("Conf")){
+                        updatesFiles.push(`${absolutePath}/public/api-version.json`)
+
                         fs.readFile(`./${absolutePath}/public/api-version.json`,'utf8',(err,file) => {
                             if(!err){
                                 let json = JSON.parse(file)
                                 json.version = version_str;
                                 
                                 fs.writeFile(`./${absolutePath}/public/api-version.json`, JSON.stringify(json), (err)=>{
-                                    if(!err)
-                                    {
-                                        updatesFiles.push(`${absolutePath}/public/api-version.json`)
-                                        console.log(`Versão ${version_str} atualizada em ./${absolutePath}/public/api-version.json`)
-                                    } 
+                                    if(!err) console.log(`Versão ${version_str} atualizada em ./${absolutePath}/public/api-version.json`)
                                 })
                             }
                         })
@@ -59,17 +55,19 @@ if(files != undefined && files != null && files != "" && files.length && files.l
         }
     }
 
-    if(updatesFiles.length > 0){
-        exec('git diff --name-only', (error, stdout, stderr) => {
-            const modifiedFiles = stdout.trim().split(/\r?\n/);
-            console.log(modifiedFiles)
+    console.log(updatesFiles)
 
-            for(let updatedVersions of updatesFiles){
-                if (modifiedFiles.includes(updatedVersions)) {
-                    exec(`git commit --amend -C HEAD -n ${updatedVersions}`);
-                }
-            }
-        })
-    }
+    // if(updatesFiles.length > 0){
+    //     exec('git diff --name-only', (error, stdout, stderr) => {
+    //         const modifiedFiles = stdout.trim().split(/\r?\n/);
+    //         console.log(modifiedFiles)
+
+    //         for(let updatedVersions of updatesFiles){
+    //             if (modifiedFiles.includes(updatedVersions)) {
+    //                 exec(`git commit --amend -C HEAD -n ${updatedVersions}`);
+    //             }
+    //         }
+    //     })
+    // }
 
 }

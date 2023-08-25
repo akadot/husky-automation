@@ -9,6 +9,6 @@
   },
   "scripts": {
     "prepare": "husky install",
-    "update": "node ./src/config/update.js"
+    "update": "node ./src/config/update.js && git add -A ."
   }
 }
