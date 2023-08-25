@@ -1,5 +1,6 @@
-import files from '../config/to_commit.js';
 import fs from 'fs';
+import {exec} from 'child_process';
+import files from '../config/to_commit.js';
 
 if(files != undefined && files != null && files != "" && files.length && files.length > 0){
     const date = new Date();
@@ -11,6 +12,8 @@ if(files != undefined && files != null && files != "" && files.length && files.l
     let secondFormat = ("0" + date.getSeconds()).slice(-2);
 
     const version_str = `${date.getFullYear()}-${monthFormat}-${dateFormat}-${hourFormat}-${minuteFormat}-${secondFormat}`;
+
+    let updatesFiles = [];
 
     for(let filename of files){
         if(!filename.includes("api-version.json"))
@@ -28,7 +31,10 @@ if(files != undefined && files != null && files != "" && files.length && files.l
                                 json.version = version_str;
 
                                 fs.writeFile(`./${absolutePath}/api-version.json`, JSON.stringify(json), (err)=>{
-                                    if(!err) console.log(`Versão ${version_str} atualizada em ./${absolutePath}/api-version.json`)
+                                    if(!err) {
+                                        updatesFiles.push(`${absolutePath}/api-version.json`);
+                                        console.log(`Versão ${version_str} atualizada em ./${absolutePath}/api-version.json`)
+                                    }
                                 })
                             }
                         })
@@ -39,7 +45,11 @@ if(files != undefined && files != null && files != "" && files.length && files.l
                                 json.version = version_str;
                                 
                                 fs.writeFile(`./${absolutePath}/public/api-version.json`, JSON.stringify(json), (err)=>{
-                                    if(!err) console.log(`Versão ${version_str} atualizada em ./${absolutePath}/public/api-version.json`)
+                                    if(!err)
+                                    {
+                                        updatesFiles.push(`${absolutePath}/public/api-version.json`)
+                                        console.log(`Versão ${version_str} atualizada em ./${absolutePath}/public/api-version.json`)
+                                    } 
                                 })
                             }
                         })
@@ -48,4 +58,17 @@ if(files != undefined && files != null && files != "" && files.length && files.l
             }
         }
     }
+
+    if(updatesFiles.length > 0){
+        exec('git diff --name-only', (error, stdout, stderr) => {
+            const modifiedFiles = stdout.trim().split(/\r?\n/);
+
+            for(let updatedVersions of updatesFiles){
+                if (modifiedFiles.includes(updatedVersions)) {
+                    exec(`git commit --amend -C HEAD -n ${updatedVersions}`);
+                }
+            }
+        })
+    }
+
 }
